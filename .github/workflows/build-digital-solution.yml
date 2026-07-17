@@ -160,7 +160,7 @@ jobs:
             sed -i -e "s/MACOSX_DEPLOYMENT_TARGET\=[0-9]*.[0-9]*/MACOSX_DEPLOYMENT_TARGET=${MIN_MACOS_VERSION}/" build.py
             sed -i -e "s/platform :osx, '.*'/platform :osx, '${MIN_MACOS_VERSION}'/" flutter/macos/Podfile
           fi
-          ./build.py --flutter --hwcodec --unix-file-copy-paste
+          python3 ./build.py --flutter --hwcodec --unix-file-copy-paste
 
       - name: Create DMG
         run: |
@@ -209,6 +209,8 @@ jobs:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
         shell: bash
         run: |
+          sudo apt-get update -y
+          sudo apt-get install -y nasm
           if ! $VCPKG_ROOT/vcpkg \
             install \
             --x-install-root="$VCPKG_ROOT/installed"; then

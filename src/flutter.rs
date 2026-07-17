@@ -890,7 +890,7 @@ impl InvokeUiSession for FlutterHandler {
         for (_, session) in self.session_handlers.read().unwrap().iter() {
             if session.renderer.on_texture(display, texture) {
                 if let Some(stream) = &session.event_stream {
-                    stream.add(EventToUI::Texture(display, true));
+                    stream.add(EventToUI::Texture(display as i32, true));
                 }
             }
         }
@@ -1236,7 +1236,7 @@ impl FlutterHandler {
                 }
             }
             if let Some(stream) = &h.event_stream {
-                stream.add(EventToUI::Rgba(display));
+                stream.add(EventToUI::Rgba(display as i32));
                 is_sent = true;
             }
         }
@@ -1266,7 +1266,7 @@ impl FlutterHandler {
             if use_texture_render || session.displays.len() > 1 {
                 if session.renderer.on_rgba(display, rgba) {
                     if let Some(stream) = &session.event_stream {
-                        stream.add(EventToUI::Texture(display, false));
+                        stream.add(EventToUI::Texture(display as i32, false));
                     }
                 }
             }
